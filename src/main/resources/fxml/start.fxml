@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<?import javafx.scene.control.Label?>
 <AnchorPane fx:id="menu" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Launch">
    <children>
       <Button fx:id="start" layoutX="268.0" layoutY="281.0" mnemonicParsing="false" onAction="#start" text="Start" />
       <TextField fx:id="username" layoutX="200.0" layoutY="185.0" promptText="Set username" />
       <Button fx:id="topTen" layoutX="495.0" layoutY="327.0" mnemonicParsing="false" onAction="#topTen" text="Top 10" />
-
+      <TextArea prefHeight="166.0" prefWidth="600.0" text="Ez egy reakcióidőt mérő játék. &#10;A játék indtásához írj be egy nevet majd kattints a &quot;Start&quot; gombra.&#10;A játék nagyon egyszerű: &#10;két alakzatot fog feldobni 10x és el kell döntened, hogy megegyeznek e vagy sem.&#10;Ha megegyeznek akkor a &quot;J&quot; billenyűt kell lenyomni.&#10;Ha nem egyeznek meg akkor a &quot;F&quot; billentyűt kell lenyomni.&#10;A &quot;Start&quot; megnyomása után 2 másodper késleltetésel kezdődik a játék." />
+      <TextArea layoutY="352.0" prefHeight="48.0" prefWidth="244.0" text="A kilépéshez nyomd meg a &quot;Q&quot;-t." />
+      <Label fx:id="errorLabel" layoutX="223.0" layoutY="220.0" prefHeight="16.0" prefWidth="151.0" textFill="#e30e0e" />
 
    </children>
 </AnchorPane>

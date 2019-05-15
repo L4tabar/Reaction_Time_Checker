@@ -13,8 +13,6 @@ import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import model.Users;
 import dao.UsersDao;
-
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -36,12 +34,8 @@ public class TopTen implements Initializable {
     @FXML
     TableColumn column3;
 
-
-
     @FXML
     public void topTen(Stage primaryStage) throws IOException {
-
-
     }
 
 
@@ -55,7 +49,6 @@ public class TopTen implements Initializable {
         column3.setCellValueFactory(new PropertyValueFactory<>("score"));
         table.getItems().clear();
         table.getItems().addAll(top);
-
 
     }
 }

@@ -8,10 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import javafx.scene.text.Text;
 
-/**
- * Used to control the timer.
- *
- */
 public class TimerClass {
 
     private double secondsPassed = 0;
@@ -28,18 +24,10 @@ public class TimerClass {
         }
     };
 
-    /**
-     * Schedules the task for repeated execution
-     */
     public void startTimer() {
         timer.scheduleAtFixedRate(task, 0, 1);
     }
 
-    /**
-     * Returns the seconds passed since the start of the timer.
-     *
-     * @return seconds passed in int
-     */
     public double getSecondsPassed() {
         return this.secondsPassed;
     }
