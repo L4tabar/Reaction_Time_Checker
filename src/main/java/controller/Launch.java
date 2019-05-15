@@ -26,23 +26,19 @@ public class Launch{
     TextField username;
     @FXML
     Label errorLabel;
-    @FXML
-    private void close() {
-        menu.setDisable(true);
-    }
-    @FXML
-    private void open() {
-        menu.setDisable(false);
-    }
 
-
-
+    /**
+     * A kezdő menünek a kontrollere.
+     * Le lehet kérni a top 10 legjobb játékost és elindítani
+     *
+     */
     @FXML
     public void start(){
 
         if (username.getText().isEmpty()) {
             errorLabel.setText(" Adj meg egy nevet!!");
         } else {
+
             Stage stage = new Stage();
             Game game = new Game();
             nev = username.getText();

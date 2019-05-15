@@ -1,0 +1,4 @@
+/**
+ * A JPA.
+ */
+package guice;

@@ -16,10 +16,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 import model.TimerClass;
 import model.Users;
 import dao.UsersDao;
-
+import lombok.extern.slf4j.Slf4j;
 import javax.persistence.EntityManager;
 
 
+/**
+ * A játék kotrollere, ahol az egész játék zajlik.
+ *
+ */
+@Slf4j
 public class Game {
 
     public static String felhasznalo;
@@ -47,6 +52,7 @@ public class Game {
         username.setStyle("-fx-font: 24 arial;");
         root.getChildren().add(username);
         username.setText(felhasznalo);
+        log.info("Elmentette a felhasználónevet");
 
 
         Shapes shapes = new Shapes();
@@ -54,16 +60,24 @@ public class Game {
         ImageView iv2 = new ImageView();
         root.getChildren().add(iv1);
         root.getChildren().add(iv2);
+        log.info("Az alakzatok lekérése és az imageview-ek létrehozása");
 
 
         Thread.sleep(2000);
 
-
+        /**
+         * Gombokra való reagálás.
+         * Ha 10 teszt megtörtént akkor megkapjuk a reakcióidőt.
+         * A Q gomb megnyomásával kilép a játékból.
+         * Az F gomb megnyomásával azt mondja a játékos, hogy nem egyforma és ha nem az akkor nincs büntetési idő.
+         * A J gomb megnyomásával azt mondja a játékos, hogy egyforma és ha az akkor nincs büntetési idő.
+         *
+         */
         same.set(getScene(iv1, iv2, shapes, random(), random()));
         scene.setOnKeyPressed(event -> {
 
             if(i.get()>10) {
-                System.out.println("Vége");
+                log.info("Véget ért a játék");
             }
             else{
                 if (i.get() == 10) {
@@ -78,7 +92,7 @@ public class Game {
                     reactTime.setText(String.valueOf(reactT));
 
                     addPlayer(username.getText(), reactT);
-                    System.out.println("A te reakcióidőd: " + reactT);
+                    log.info("A játékos neve és pontjának mentése");
                     i.incrementAndGet();
 
                 }
@@ -89,7 +103,7 @@ public class Game {
 
                             time[i.get()] = tc.getSecondsPassed();
                             time_tmp[i.get()] = tc.getSecondsPassed();
-                            System.out.println("Az első nem volt egyforma: ");
+                            log.info("Helyes válasz, az első nem volt egyforma");
 
                         }
 
@@ -97,7 +111,7 @@ public class Game {
 
                             time[i.get()] = tc.getSecondsPassed() - time_tmp[i.get()-1];
                             time_tmp[i.get()] = tc.getSecondsPassed();
-                            System.out.println("Nem volt egyforma: ");
+                            log.info("Helyes válasz, nem volt egyforma");
 
                         }
                     }
@@ -107,14 +121,14 @@ public class Game {
                         if (i.get() == 0) {
                             time[i.get()] = tc.getSecondsPassed() + 2;
                             time_tmp[i.get()] = tc.getSecondsPassed();
-                            System.out.println("Az első helytelen: ");
+                            log.info("Helytelen válasz, egyforma volt az első");
 
                         }
                         else {
 
                             time[i.get()] = tc.getSecondsPassed() - time_tmp[i.get()-1] + 2;
                             time_tmp[i.get()] = tc.getSecondsPassed();
-                            System.out.println("Helytelen: ");
+                            log.info("Helytelen válasz, egyforma volt");
 
                         }
                     }
@@ -127,14 +141,14 @@ public class Game {
 
                             time[i.get()] = tc.getSecondsPassed();
                             time_tmp[i.get()] = tc.getSecondsPassed();
-                            System.out.println("Az első egyforma: ");
+                            log.info("Helyes válasz, az első egyforma volt");
 
                         }
                         else {
 
                             time[i.get()] = tc.getSecondsPassed() - time_tmp[i.get()-1];
                             time_tmp[i.get()] = tc.getSecondsPassed();
-                            System.out.println("Egyforma: ");
+                            log.info("Helyes válasz, egyforma volt");
 
                         }
 
@@ -146,14 +160,14 @@ public class Game {
 
                             time[i.get()] = tc.getSecondsPassed() + 2;
                             time_tmp[i.get()] = tc.getSecondsPassed();
-                            System.out.println("Az első helytelen válasz: ");
+                            log.info("Helytelen válasz, az első nem volt egyforma");
 
                         }
                         else {
 
                             time[i.get()] = tc.getSecondsPassed() - time_tmp[i.get()-1] + 2;
                             time_tmp[i.get()] = tc.getSecondsPassed();
-                            System.out.println("Helytelen válasz: ");
+                            log.info("Helytelen válasz, nem volt egyforma");
 
                         }
                     }
@@ -162,13 +176,13 @@ public class Game {
                 if(event.getCode() == KeyCode.Q) {
                     root.getChildren().clear();
                     primaryStage.close();
+                    log.info("Kiléptél a játékból");
                 }
 
                 same.set(getScene(iv1, iv2, shapes, random(), random()));
                 i.incrementAndGet();
+                log.info("Új képek következnek");
             }
-
-
 
         });
 
@@ -176,7 +190,16 @@ public class Game {
         primaryStage.show();
 
     }
-
+    /**
+     * Egy új "scene" kérése ami feldob két új képet és visszaad egy boolean-t ami true ha a két kép egyforma és false ha nem egyformák.
+     * @param iv1 imageView
+     * @param iv2 imageView
+     * @param rand1 egy random szám
+     * @param rand2 még egy random szám
+     * @param shapes az alakzatok (képek)
+     * @return egyforma vagy sem
+     *
+     */
     public static boolean getScene(ImageView iv1, ImageView iv2, Shapes shapes, int rand1, int rand2) {
 
         iv1.setImage(shapes.getImage(rand1));
@@ -191,6 +214,7 @@ public class Game {
         iv2.setTranslateX(300);
 
         same = iv1.getImage().equals(iv2.getImage());
+        log.info("Be lett állítva 2 kép és visszaadta, hogy egyforma vagy sem");
         return same;
     }
 
@@ -198,13 +222,17 @@ public class Game {
         Random random = new Random();
         return random.nextInt(3);
     }
-
+    /**
+     * Játékos hozzáadása az adatbázishoz
+     *
+     */
     public static void addPlayer(String name, double score) {
 
         Injector injector = Guice.createInjector(new PersistenceModule("jpa-persistence-unit-1"));
         UsersDao usersDao = injector.getInstance(UsersDao.class);
         Users player = new Users(name, score);
         usersDao.persist(player);
+        log.info("Hozzá lett adva egy játékos");
 
     }
 

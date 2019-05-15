@@ -38,7 +38,10 @@ public class TopTen implements Initializable {
     public void topTen(Stage primaryStage) throws IOException {
     }
 
-
+    /**
+     * A top 10 játékosnak a táblázata
+     *
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Injector injector = Guice.createInjector(new PersistenceModule("jpa-persistence-unit-1"));
