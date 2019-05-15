@@ -76,8 +76,13 @@ public class Game {
         same.set(getScene(iv1, iv2, shapes, random(), random()));
         scene.setOnKeyPressed(event -> {
 
-            if(i.get()>10) {
+            if(i.get()>=11) {
                 log.info("Véget ért a játék");
+                if(event.getCode() == KeyCode.Q) {
+                    root.getChildren().clear();
+                    primaryStage.close();
+                    log.info("Kiléptél a játékból");
+                }
             }
             else{
                 if (i.get() == 10) {
@@ -85,11 +90,20 @@ public class Game {
                     double reactT = (time[0] + time[1] + time[2] + time[3] + time[4] + time[5] + time[6] + time[7] + time[8] + time[9]) / 10;
 
                     Text reactTime = new Text();
-                    reactTime.setTranslateX(-400);
+                    Text kilep = new Text();
+
+                    reactTime.setTranslateX(-300);
                     reactTime.setTranslateY(-250);
                     reactTime.setStyle("-fx-font: 24 arial;");
+
+                    kilep.setTranslateX(-430);
+                    kilep.setTranslateY(-210);
+                    kilep.setStyle("-fx-font: 24 arial;");
+
                     root.getChildren().add(reactTime);
-                    reactTime.setText(String.valueOf(reactT));
+                    root.getChildren().add(kilep);
+                    reactTime.setText("A te reakcióidőd: " + String.valueOf(reactT) + " mp");
+                    kilep.setText("A kilépéshez nyomd meg a Q-t");
 
                     addPlayer(username.getText(), reactT);
                     log.info("A játékos neve és pontjának mentése");
@@ -171,12 +185,6 @@ public class Game {
 
                         }
                     }
-                }
-
-                if(event.getCode() == KeyCode.Q) {
-                    root.getChildren().clear();
-                    primaryStage.close();
-                    log.info("Kiléptél a játékból");
                 }
 
                 same.set(getScene(iv1, iv2, shapes, random(), random()));
